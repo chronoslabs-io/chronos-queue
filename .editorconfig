@@ -1,0 +1,56 @@
+# EditorConfig: http://EditorConfig.org
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.bat]
+end_of_line = crlf
+
+[*.groovy]
+ij_continuation_indent_size = 4
+ij_groovy_class_count_to_use_import_on_demand = 999
+ij_groovy_label_indent_size = 4
+ij_groovy_names_count_to_use_import_on_demand = 999
+indent_size = 4
+max_line_length = 100
+tab_width = 4
+
+[*.java]
+ij_continuation_indent_size = 4
+ij_java_class_count_to_use_import_on_demand = 999
+ij_java_names_count_to_use_import_on_demand = 999
+indent_size = 2
+max_line_length = 100
+tab_width = 2
+
+[{*.json,*.json5}]
+indent_size = 2
+tab_width = 2
+
+[*.kts]
+ij_continuation_indent_size = 8
+ij_kotlin_name_count_to_use_star_import = 999
+ij_kotlin_name_count_to_use_star_import_for_members = 999
+indent_size = 4
+tab_width = 4
+
+# Markdown files sometimes need trailing whitespaces.
+[*.md]
+trim_trailing_whitespace = false
+
+[*.proto]
+indent_size = 2
+max_line_length = 100
+
+[*.xml]
+indent_size = 2
+tab_width = 2
+
+[{*.yaml,*.yml}]
+indent_size = 2
+tab_width = 2
