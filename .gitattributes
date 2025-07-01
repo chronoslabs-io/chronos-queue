@@ -1,0 +1,7 @@
+# https://help.github.com/articles/dealing-with-line-endings/
+# bat files are windows files and should use crlf
+
+*     text eol=lf
+*.bat text eol=crlf
+*.jar binary
+*.png binary
