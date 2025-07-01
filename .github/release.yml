@@ -1,0 +1,23 @@
+changelog:
+  categories:
+    - title: 🛠 BREAKING CHANGES
+      labels:
+        - breaking-change
+    - title: ✨ Features
+      labels:
+        - enhancement
+    - title: 🐞 Bug Fixes
+      labels:
+        - bug
+    - title: 🔨 Code Refactoring
+      labels:
+        - refactoring
+    - title: 📔 Documentation
+      labels:
+        - documentation
+    - title: ⬆️ Dependency Upgrades
+      labels:
+        - dependencies
+    - title: 🎨 Other Changes
+      labels:
+        - "*"
