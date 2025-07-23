@@ -11,9 +11,12 @@ plugins {
     id("jacoco")
     id("java")
     id("java-library")
+    id("maven-publish")
     id("pmd")
+    id("signing")
     alias(libs.plugins.conventionalCommits)
     alias(libs.plugins.errorprone)
+    alias(libs.plugins.release)
     alias(libs.plugins.sonarqube)
     alias(libs.plugins.spotless)
     alias(libs.plugins.testLogger)
@@ -31,8 +34,14 @@ subprojects {
     apply(plugin = "jacoco")
     apply(plugin = "java")
     apply(plugin = "java-library")
+    apply(plugin = "maven-publish")
     apply(plugin = "net.ltgt.errorprone")
+    apply(plugin = "pl.allegro.tech.build.axion-release")
     apply(plugin = "pmd")
+    apply(plugin = "signing")
+
+    group = "io.chronoslabs.queue"
+    version = scmVersion.version
 
     repositories {
         mavenCentral()
@@ -84,10 +93,46 @@ subprojects {
         toolVersion = rootProject.libs.versions.dev.pmd.get()
     }
 
+    publishing {
+        publications {
+            create<MavenPublication>("chronoslabs-queue") {
+                from(components["java"])
+
+                pom {
+                    url = "https://github.com/chronoslabs-io/chronos-queue"
+
+                    scm {
+                        connection = "scm:git:git@github.com:chronoslabs-io/chronos-queue.git"
+                        developerConnection = "scm:git:git@github.com:chronoslabs-io/chronos-queue.git"
+                        url = "https://github.com/chronoslabs-io/chronos-queue"
+                    }
+                }
+            }
+        }
+        repositories {
+            maven {
+                name = "MavenCentral"
+                url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+                credentials {
+                    username = System.getenv("SONATYPE_USERNAME")
+                    password = System.getenv("SONATYPE_PASSWORD")
+                }
+            }
+        }
+    }
+
+    signing {
+        useInMemoryPgpKeys(
+            System.getenv("GPG_KEY_ID"),
+            System.getenv("GPG_PRIVATE_KEY"),
+            System.getenv("GPG_PRIVATE_KEY_PASSWORD")
+        )
+        sign(publishing.publications)
+    }
+
     spotless {
         java {
             googleJavaFormat(rootProject.libs.versions.dev.googleJavaFormat.get()).reflowLongStrings()
-            targetExclude("build/generated/")
         }
     }
 
