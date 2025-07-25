@@ -5,9 +5,11 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_ERROR
 import java.time.Instant
+import java.time.Duration
 
 plugins {
     id("codenarc")
+    id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
     id("jacoco")
     id("java")
     id("java-library")
@@ -20,6 +22,17 @@ plugins {
     alias(libs.plugins.sonarqube)
     alias(libs.plugins.spotless)
     alias(libs.plugins.testLogger)
+}
+
+nexusPublishing {
+    connectTimeout.set(Duration.ofMinutes(10))
+    clientTimeout.set(Duration.ofMinutes(10))
+    repositories {
+        sonatype {
+            username.set(System.getenv("SONATYPE_USERNAME"))
+            password.set(System.getenv("SONATYPE_PASSWORD"))
+        }
+    }
 }
 
 subprojects {
@@ -109,25 +122,17 @@ subprojects {
                 }
             }
         }
-        repositories {
-            maven {
-                name = "MavenCentral"
-                url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-                credentials {
-                    username = System.getenv("SONATYPE_USERNAME")
-                    password = System.getenv("SONATYPE_PASSWORD")
-                }
-            }
-        }
     }
 
-    signing {
-        useInMemoryPgpKeys(
-            System.getenv("GPG_KEY_ID"),
-            System.getenv("GPG_PRIVATE_KEY"),
-            System.getenv("GPG_PRIVATE_KEY_PASSWORD")
-        )
-        sign(publishing.publications)
+    if (!System.getenv("GPG_KEY_ID").isNullOrBlank()) {
+        signing {
+            useInMemoryPgpKeys(
+                System.getenv("GPG_KEY_ID"),
+                System.getenv("GPG_PRIVATE_KEY"),
+                System.getenv("GPG_PRIVATE_KEY_PASSWORD")
+            )
+            sign(publishing.publications)
+        }
     }
 
     spotless {
