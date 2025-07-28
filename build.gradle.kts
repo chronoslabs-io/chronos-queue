@@ -227,7 +227,3 @@ nexusPublishing {
         }
     }
 }
-
-infix fun <T : PluginDependency> PluginAware.apply(plugin: Provider<T>) {
-    apply(plugin = plugin.get().pluginId)
-}
