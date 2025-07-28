@@ -18,7 +18,7 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
       - name: Publish repository
-        run: gradle clean publishToSonatype closeAndReleaseSonatypeStagingRepository
+        run: ./gradlew clean publishToSonatype closeAndReleaseSonatypeStagingRepository
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
