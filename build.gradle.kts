@@ -9,7 +9,6 @@ import java.time.Duration
 
 plugins {
     id("codenarc")
-    id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
     id("jacoco")
     id("java")
     id("java-library")
@@ -18,6 +17,7 @@ plugins {
     id("signing")
     alias(libs.plugins.conventionalCommits)
     alias(libs.plugins.errorprone)
+    alias(libs.plugins.nexusPublish)
     alias(libs.plugins.release)
     alias(libs.plugins.sonarqube)
     alias(libs.plugins.spotless)
@@ -207,3 +207,4 @@ subprojects {
         }
     }
 }
+
