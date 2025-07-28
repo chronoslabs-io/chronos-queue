@@ -4,6 +4,13 @@ pluginManagement {
     }
 }
 
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+    }
+}
+
+
 rootProject.name = "chronos-queue"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
