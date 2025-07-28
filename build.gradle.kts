@@ -24,17 +24,6 @@ plugins {
     alias(libs.plugins.testLogger)
 }
 
-nexusPublishing {
-    connectTimeout.set(Duration.ofMinutes(10))
-    clientTimeout.set(Duration.ofMinutes(10))
-    repositories {
-        sonatype {
-            username.set(System.getenv("SONATYPE_USERNAME"))
-            password.set(System.getenv("SONATYPE_PASSWORD"))
-        }
-    }
-}
-
 subprojects {
 
     if (this.childProjects.isNotEmpty()) {
@@ -61,6 +50,8 @@ subprojects {
     }
 
     java {
+        withSourcesJar()
+        withJavadocJar()
         toolchain {
             languageVersion = JavaLanguageVersion.of(21)
         }
@@ -108,12 +99,30 @@ subprojects {
 
     publishing {
         publications {
-            create<MavenPublication>("chronoslabs-queue") {
+            create<MavenPublication>("mavenJava") {
                 from(components["java"])
 
                 pom {
+                    name = project.name
+                    description = "Chronos Queue module: ${project.name}"
                     url = "https://github.com/chronoslabs-io/chronos-queue"
-
+                    inceptionYear = "2025"
+                    licenses {
+                        license {
+                            name = "Apache License, Version 2.0"
+                            url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = "dkubicki"
+                            name = "Dawid Kubicki"
+                        }
+                        developer {
+                            id = "marcindabrowski"
+                            name = "Marcin Dabrowski"
+                        }
+                    }
                     scm {
                         connection = "scm:git:git@github.com:chronoslabs-io/chronos-queue.git"
                         developerConnection = "scm:git:git@github.com:chronoslabs-io/chronos-queue.git"
@@ -206,4 +215,19 @@ subprojects {
             events = setOf(FAILED, PASSED, SKIPPED, STANDARD_ERROR)
         }
     }
+}
+
+nexusPublishing {
+    connectTimeout.set(Duration.ofMinutes(10))
+    clientTimeout.set(Duration.ofMinutes(10))
+    repositories {
+        sonatype {
+            username.set(System.getenv("SONATYPE_USERNAME"))
+            password.set(System.getenv("SONATYPE_PASSWORD"))
+        }
+    }
+}
+
+infix fun <T : PluginDependency> PluginAware.apply(plugin: Provider<T>) {
+    apply(plugin = plugin.get().pluginId)
 }
