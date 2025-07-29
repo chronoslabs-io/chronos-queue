@@ -4,8 +4,8 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_ERROR
-import java.time.Instant
 import java.time.Duration
+import java.time.Instant
 
 plugins {
     id("codenarc")
@@ -180,7 +180,7 @@ subprojects {
 
         manifest {
             attributes(
-                "Build-Jdk"              to "${jdkLauncherMetadata.jvmVersion} (${jdkLauncherMetadata.vendor})",
+                "Build-Jdk"  to "${jdkLauncherMetadata.jvmVersion} (${jdkLauncherMetadata.vendor})",
                 "Build-Jdk-Spec"         to releaseJavaVersion,
                 "Build-OS"               to "${System.getProperty("os.name")} ${System.getProperty("os.arch")} ${System.getProperty("os.version")}",
                 "Build-Timestamp"        to Instant.now().toString(),
@@ -224,6 +224,8 @@ nexusPublishing {
         sonatype {
             username.set(System.getenv("SONATYPE_USERNAME"))
             password.set(System.getenv("SONATYPE_PASSWORD"))
+            nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
         }
     }
 }
