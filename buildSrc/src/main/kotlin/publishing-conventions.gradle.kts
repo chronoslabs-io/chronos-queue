@@ -1,0 +1,66 @@
+plugins {
+    `maven-publish`
+    id("io.github.gradle-nexus.publish-plugin")
+    signing
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("sonatype") {
+            artifactId = "queue"
+            group = "io.chronoslabs.queue"
+            from(components["java"])
+
+            pom {
+                name = project.name
+                description = "Chronos Queue module: ${project.name}"
+                url = "https://github.com/chronoslabs-io/chronos-queue"
+                inceptionYear = "2025"
+                licenses {
+                    license {
+                        name = "Apache License, Version 2.0"
+                        url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "dkubicki"
+                        name = "Dawid Kubicki"
+                    }
+                    developer {
+                        id = "marcindabrowski"
+                        name = "Marcin Dabrowski"
+                    }
+                }
+                scm {
+                    connection = "scm:git@github.com:chronoslabs-io/chronos-queue.git"
+                    developerConnection = "scm:git@github.com:chronoslabs-io/chronos-queue.git"
+                    url = "https://github.com/chronoslabs-io/chronos-queue"
+                }
+            }
+        }
+    }
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            username.set("c6l7CQ")
+            password.set("bEPQ04eHQUiWVKzUpD8V5a953VnBsmJw1")
+            nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
+        }
+    }
+}
+
+signing {
+    setRequired {
+        System.getenv("GPG_KEY_ID") != null
+    }
+    useInMemoryPgpKeys(
+        System.getenv("GPG_KEY_ID"),
+        System.getenv("GPG_PRIVATE_KEY"),
+        System.getenv("GPG_PRIVATE_KEY_PASSWORD")
+    )
+    sign(publishing.publications["sonatype"])
+}
