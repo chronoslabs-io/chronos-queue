@@ -124,8 +124,8 @@ subprojects {
                         }
                     }
                     scm {
-                        connection = "scm:git:git@github.com:chronoslabs-io/chronos-queue.git"
-                        developerConnection = "scm:git:git@github.com:chronoslabs-io/chronos-queue.git"
+                        connection = "scm:git@github.com:chronoslabs-io/chronos-queue.git"
+                        developerConnection = "scm:git@github.com:chronoslabs-io/chronos-queue.git"
                         url = "https://github.com/chronoslabs-io/chronos-queue"
                     }
                 }
