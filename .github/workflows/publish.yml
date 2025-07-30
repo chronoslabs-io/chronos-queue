@@ -20,7 +20,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Publish repository
-        run: ./gradlew clean publishToSonatype closeAndReleaseSonatypeStagingRepository
+        run: ./gradlew clean publishToSonatype closeAndReleaseSonatypeStagingRepository --stacktrace --info
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
