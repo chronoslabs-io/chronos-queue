@@ -12,9 +12,7 @@ plugins {
     id("jacoco")
     id("java")
     id("java-library")
-    id("maven-publish")
     id("pmd")
-    id("signing")
     alias(libs.plugins.conventionalCommits)
     alias(libs.plugins.errorprone)
     alias(libs.plugins.nexusPublish)
@@ -36,11 +34,9 @@ subprojects {
     apply(plugin = "jacoco")
     apply(plugin = "java")
     apply(plugin = "java-library")
-    apply(plugin = "maven-publish")
     apply(plugin = "net.ltgt.errorprone")
     apply(plugin = "pl.allegro.tech.build.axion-release")
     apply(plugin = "pmd")
-    apply(plugin = "signing")
 
     group = "io.chronoslabs.queue"
     version = scmVersion.version
@@ -95,53 +91,6 @@ subprojects {
             "category/java/security.xml",
         )
         toolVersion = rootProject.libs.versions.dev.pmd.get()
-    }
-
-    publishing {
-        publications {
-            create<MavenPublication>("mavenJava") {
-                from(components["java"])
-
-                pom {
-                    name = project.name
-                    description = "Chronos Queue module: ${project.name}"
-                    url = "https://github.com/chronoslabs-io/chronos-queue"
-                    inceptionYear = "2025"
-                    licenses {
-                        license {
-                            name = "Apache License, Version 2.0"
-                            url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
-                        }
-                    }
-                    developers {
-                        developer {
-                            id = "dkubicki"
-                            name = "Dawid Kubicki"
-                        }
-                        developer {
-                            id = "marcindabrowski"
-                            name = "Marcin Dabrowski"
-                        }
-                    }
-                    scm {
-                        connection = "scm:git@github.com:chronoslabs-io/chronos-queue.git"
-                        developerConnection = "scm:git@github.com:chronoslabs-io/chronos-queue.git"
-                        url = "https://github.com/chronoslabs-io/chronos-queue"
-                    }
-                }
-            }
-        }
-    }
-
-    if (!System.getenv("GPG_KEY_ID").isNullOrBlank()) {
-        signing {
-            useInMemoryPgpKeys(
-                System.getenv("GPG_KEY_ID"),
-                System.getenv("GPG_PRIVATE_KEY"),
-                System.getenv("GPG_PRIVATE_KEY_PASSWORD")
-            )
-            sign(publishing.publications)
-        }
     }
 
     spotless {
@@ -218,12 +167,10 @@ subprojects {
 }
 
 nexusPublishing {
-    connectTimeout.set(Duration.ofMinutes(10))
-    clientTimeout.set(Duration.ofMinutes(10))
     repositories {
         sonatype {
-            username.set(System.getenv("SONATYPE_USERNAME"))
-            password.set(System.getenv("SONATYPE_PASSWORD"))
+            username.set("SONATYPE_USERNAME")
+            password.set("SONATYPE_PASSWORD")
             nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
             snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
         }
