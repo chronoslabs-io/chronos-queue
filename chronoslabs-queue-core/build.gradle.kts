@@ -1,6 +1,7 @@
 plugins {
     id("java-library")
     id("java-test-fixtures")
+    id("publishing-conventions")
 }
 
 dependencies {

@@ -13,17 +13,14 @@ plugins {
     id("java")
     id("java-library")
     id("pmd")
-    id("publishing-conventions")
     alias(libs.plugins.conventionalCommits)
     alias(libs.plugins.errorprone)
+    alias(libs.plugins.nexusPublish)
     alias(libs.plugins.release)
     alias(libs.plugins.sonarqube)
     alias(libs.plugins.spotless)
     alias(libs.plugins.testLogger)
 }
-
-group = "io.chronoslabs.queue"
-version = scmVersion.version
 
 subprojects {
 
@@ -37,11 +34,12 @@ subprojects {
     apply(plugin = "jacoco")
     apply(plugin = "java")
     apply(plugin = "java-library")
-    apply(plugin = "maven-publish")
     apply(plugin = "net.ltgt.errorprone")
     apply(plugin = "pl.allegro.tech.build.axion-release")
     apply(plugin = "pmd")
-    apply(plugin = "signing")
+
+    group = "io.chronoslabs.queue"
+    version = scmVersion.version
 
     repositories {
         mavenCentral()
@@ -164,6 +162,17 @@ subprojects {
         testLogging {
             exceptionFormat = FULL
             events = setOf(FAILED, PASSED, SKIPPED, STANDARD_ERROR)
+        }
+    }
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            username.set("SONATYPE_USERNAME")
+            password.set("SONATYPE_PASSWORD")
+            nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
         }
     }
 }

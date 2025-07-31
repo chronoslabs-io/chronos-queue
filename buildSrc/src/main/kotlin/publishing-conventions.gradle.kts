@@ -1,13 +1,18 @@
 plugins {
-    `maven-publish`
-    id("io.github.gradle-nexus.publish-plugin")
-    signing
+    id("java-library")
+    id("maven-publish")
+    id("signing")
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    withJavadocJar()
+    withSourcesJar()
 }
 
 publishing {
     publications {
         create<MavenPublication>("sonatype") {
-            artifactId = "queue"
             group = "io.chronoslabs.queue"
             from(components["java"])
 
@@ -38,17 +43,6 @@ publishing {
                     url = "https://github.com/chronoslabs-io/chronos-queue"
                 }
             }
-        }
-    }
-}
-
-nexusPublishing {
-    repositories {
-        sonatype {
-            username.set("SONATYPE_USERNAME")
-            password.set("SONATYPE_PASSWORD")
-            nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
-            snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
         }
     }
 }
