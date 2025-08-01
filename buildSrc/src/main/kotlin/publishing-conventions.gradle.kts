@@ -13,7 +13,7 @@ java {
 publishing {
     publications {
         create<MavenPublication>("sonatype") {
-            group = "io.chronoslabs.queue"
+            group = "io.chronoslabs"
             from(components["java"])
 
             pom {
