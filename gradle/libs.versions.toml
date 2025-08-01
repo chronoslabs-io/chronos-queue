@@ -1,18 +1,17 @@
 [versions]
 result4j = "1.2.0"
 slf4j = "2.0.17"
-spring-boot-platform = "3.5.3"
+spring-boot-platform = "3.5.4"
 
 # Test libraries versions
-test-junit = "5.13.3"
+test-junit = "5.13.4"
 test-spock = "2.4-M6-groovy-4.0"
 
 # Dev tools versions
 dev-codenarc = "3.6.0-groovy-4.0"  # https://github.com/CodeNarc/CodeNarc/releases/latest
-dev-errorprone = "2.40.0"
 dev-googleJavaFormat = "1.28.0"    # https://github.com/google/google-java-format/releases/latest
 dev-jacoco = "0.8.13"              # https://github.com/jacoco/jacoco/releases/latest
-dev-pmd = "7.15.0"                 # https://github.com/pmd/pmd/releases/latest
+dev-pmd = "7.16.0"                 # https://github.com/pmd/pmd/releases/latest
 
 [libraries]
 logging-slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
@@ -24,7 +23,7 @@ spring-jdbc = { module = "org.springframework:spring-jdbc" }
 spring-tx = { module = "org.springframework:spring-tx" }
 
 # Development libraries
-dev-errorprone-core = { module = "com.google.errorprone:error_prone_core", version.ref = "dev-errorprone" }
+dev-errorprone-core = { module = "com.google.errorprone:error_prone_core", version = "2.41.0" }
 
 # test libraries
 test-archunit = { module = "com.tngtech.archunit:archunit", version = "1.4.1" }
@@ -32,7 +31,7 @@ test-assertj-core = { module = "org.assertj:assertj-core", version = "3.27.3" }
 test-assertj-result4j = { module = "com.github.sviperll:assertj-result4j", version.ref = "result4j" }
 test-groovy-json = { module = "org.apache.groovy:groovy-json" }
 test-groovy-language = { module = "org.apache.groovy:groovy" }
-test-groovy-platform = { module = "org.apache.groovy:groovy-bom", version = "4.0.27" }
+test-groovy-platform = { module = "org.apache.groovy:groovy-bom", version = "4.0.28" }
 test-junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api" }
 test-junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine" }
 test-junit-platform = { module = "org.junit:junit-bom", version.ref = "test-junit" }
@@ -47,5 +46,5 @@ errorprone = { id = "net.ltgt.errorprone", version = "4.3.0" }
 nexusPublish = { id = "io.github.gradle-nexus.publish-plugin", version = "2.0.0" }
 release = { id = "pl.allegro.tech.build.axion-release", version = "1.19.0" }
 sonarqube = { id = "org.sonarqube", version = "6.2.0.5505" }
-spotless = { id = "com.diffplug.spotless", version = "7.1.0" }
+spotless = { id = "com.diffplug.spotless", version = "7.2.1" }
 testLogger = { id = "com.adarshr.test-logger", version = "4.0.0" }
